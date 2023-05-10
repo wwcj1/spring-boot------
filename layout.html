@@ -1,0 +1,100 @@
+<!-- 共通レイアウト -->
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- ヘッド -->
+
+<head th:fragment="head(title, links)">
+    <title th:text="${title}"></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <!-- 共通css -->
+    <link th:href="@{/css/tmm.css}" rel="styleSheet" />
+    <link th:href="@{/scss/html-mock.scss}" rel="styleSheet" />
+
+    <!-- 個別css -->
+    <th:block th:if="${links != ''}">
+        <th:block th:replace="${links}" />
+    </th:block>
+</head>
+
+<!-- ヘッダ -->
+<nav class="navbar navbar-expand-sm navbar-light p-3 border-bottom border-primary" th:fragment="header">
+    <!-- ナビゲーション -->
+    <!-- ログイン時 -->
+    <!-- TODO ログイン判定をどちらでするか確認 -->
+    <!-- <div class="container" sec:authorize="isAuthenticated()"> -->
+    <div class="container" th:if="${session.user != null}">
+        <a class="navbar-brand mb-0 h1 text-primary" href="/menu">教材管理システム</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" href="/menu">メニュー</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/teaching-materials/search">教材検索</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/users/detail">ユーザー情報</a>
+            </li>
+        </ul>
+        <form class="d-flex ms-auto" role="logout" th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-outline-primary flex-shrink-0">
+                ログアウト
+            </button>
+        </form>
+    </div>
+
+    <!-- 未ログイン時 -->
+    <!-- TODO ログイン判定をどちらでするか確認 -->
+    <!-- <div class="container" sec:authorize="!isAuthenticated()"> -->
+    <div class="container" th:if="${session.user == null}">
+        <a class="navbar-brand mb-0 h1 text-primary" href="/login">教材管理システム</a>
+        <form class="d-flex ms-auto" role="login" th:action="@{/login}" method="get">
+            <button type="submit" class="btn btn-outline-primary flex-shrink-0">
+                ログイン
+            </button>
+        </form>
+    </div>
+</nav>
+
+<!-- モーダルダイアログ表示ボタン（非表示） -->
+<button th:fragment="errorModalButton" type="button" class="btn btn-danger" id="errorModalButton" data-toggle="modal"
+    data-target="#errorModal"></button>
+
+<!-- モーダルダイアログ本体 -->
+<div class="modal" id="errorModal" th:fragment="errorModal(errorModalTitle,errorModalMessage)" tabindex="-1"
+    aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel" th:text="${errorModalTitle}"></h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" th:text="${errorModalMessage}"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- フッタ -->
+<footer th:fragment="footer" class="footer py-3 bg-dark bg-body-tertiary">
+    <div class="container text-center">
+        <span class="text-muted">ictpj-kenshu &copy; All Right Reserved.</span>
+    </div>
+</footer>
+
+</html>
