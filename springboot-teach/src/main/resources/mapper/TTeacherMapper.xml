@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootteach.mapper.TTeacherMapper">
+    <select id="getByName" resultType="com.example.springbootteach.entity.TTeacher">
+        select *from t_teacher
+        where name=#{name}
+    </select>
+    <update id="updateTeacher" parameterType="com.example.springbootteach.entity.TTeacher" useGeneratedKeys="true" keyProperty="id">
+        update t_teacher
+        set name=#{name}
+        , password=#{password}
+        , sex=#{sex}
+        , age=#{age}
+        , teach_age=#{teachAge}
+        , phone=#{phone}
+        , email=#{email}
+        , degree =#{degree }
+        , subject=#{subject}
+        , created_time=#{createdTime}
+        , update_time=#{updateTime}
+        where id=#{id}
+    </update>
+</mapper>
